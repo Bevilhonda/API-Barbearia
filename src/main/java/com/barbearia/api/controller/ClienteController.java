@@ -39,4 +39,30 @@ public class ClienteController {
     ) {
         return clienteService.buscarPorNome(nome);
     }
+
+    @GetMapping("/{id}")
+    public Cliente buscarPorId(@PathVariable Long id) {
+        return clienteService.buscarPorId(id);
+    }
+
+    @PutMapping("/{id}")
+    public Cliente atualizarCliente(
+            @PathVariable Long id,
+            @RequestBody Cliente cliente
+    ) {
+        return clienteService.atualizarCliente(id, cliente);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deletarCliente(@PathVariable Long id) {
+
+        boolean deletado =
+                clienteService.deletarCliente(id);
+
+        if (!deletado) {
+            return "Cliente não encontrado";
+        }
+
+        return "Cliente deletado com sucesso";
+    }
 }
