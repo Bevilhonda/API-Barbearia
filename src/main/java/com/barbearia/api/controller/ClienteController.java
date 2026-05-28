@@ -54,14 +54,11 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{id}")
-    public String deletarCliente(@PathVariable Long id) {
+    public String deletarCliente(
+            @PathVariable Long id
+    ) {
 
-        boolean deletado =
-                clienteService.deletarCliente(id);
-
-        if (!deletado) {
-            return "Cliente não encontrado";
-        }
+        clienteService.deletarCliente(id);
 
         return "Cliente deletado com sucesso";
     }

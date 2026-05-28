@@ -1,6 +1,7 @@
 package com.barbearia.api.service;
 
 import com.barbearia.api.entity.Cliente;
+import com.barbearia.api.exceptions.ClienteNotFoundException;
 import com.barbearia.api.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 
@@ -34,17 +35,16 @@ public class ClienteService {
     public Cliente buscarPorId(Long id) {
 
         return clienteRepository.findById(id)
-                .orElse(null);
+                .orElseThrow(() ->
+                        new ClienteNotFoundException(id));
     }
 
     public Cliente atualizarCliente(Long id, Cliente clienteAtualizado) {
 
-        Cliente cliente = clienteRepository.findById(id)
-                .orElse(null);
-
-        if (cliente == null) {
-            return null;
-        }
+        Cliente cliente = clienteRepository
+                .findById(id)
+                .orElseThrow(() ->
+                        new ClienteNotFoundException(id));
 
         cliente.setNome(clienteAtualizado.getNome());
         cliente.setTelefone(clienteAtualizado.getTelefone());
@@ -52,17 +52,13 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
-    public boolean deletarCliente(Long id) {
+    public void deletarCliente(Long id) {
 
-        Cliente cliente = clienteRepository.findById(id)
-                .orElse(null);
-
-        if (cliente == null) {
-            return false;
-        }
+        Cliente cliente = clienteRepository
+                .findById(id)
+                .orElseThrow(() ->
+                        new ClienteNotFoundException(id));
 
         clienteRepository.delete(cliente);
-
-        return true;
     }
 }
