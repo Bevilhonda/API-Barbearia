@@ -5,6 +5,9 @@ import com.barbearia.api.exceptions.ClienteNotFoundException;
 import com.barbearia.api.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 
+import com.barbearia.api.dto.cliente.ClienteRequestDTO;
+import com.barbearia.api.dto.cliente.ClienteResponseDTO;
+
 import java.util.List;
 
 @Service
@@ -16,12 +19,32 @@ public class ClienteService {
         this.clienteRepository = clienteRepository;
     }
 
-    public Cliente salvarCliente(Cliente cliente) {
-        return clienteRepository.save(cliente);
+    public ClienteResponseDTO salvarCliente(ClienteRequestDTO dto) {
+
+        Cliente cliente = new Cliente();
+
+        cliente.setNome(dto.getNome());
+        cliente.setTelefone(dto.getTelefone());
+
+        Cliente clienteSalvo = clienteRepository.save(cliente);
+
+        return new ClienteResponseDTO(
+                clienteSalvo.getId(),
+                clienteSalvo.getNome(),
+                clienteSalvo.getTelefone()
+        );
     }
 
-    public List<Cliente> listarClientes() {
-        return clienteRepository.findAll();
+    public List<ClienteResponseDTO> listarClientes() {
+
+        return clienteRepository.findAll()
+                .stream()
+                .map(cliente -> new ClienteResponseDTO(
+                        cliente.getId(),
+                        cliente.getNome(),
+                        cliente.getTelefone()
+                ))
+                .toList();
     }
 
     public Cliente buscarPorTelefone(String telefone) {
@@ -32,11 +55,17 @@ public class ClienteService {
         return clienteRepository.buscarPorNome(nome);
     }
 
-    public Cliente buscarPorId(Long id) {
+    public ClienteResponseDTO buscarPorId(Long id) {
 
-        return clienteRepository.findById(id)
+        Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() ->
                         new ClienteNotFoundException(id));
+
+        return new ClienteResponseDTO(
+                cliente.getId(),
+                cliente.getNome(),
+                cliente.getTelefone()
+        );
     }
 
     public Cliente atualizarCliente(Long id, Cliente clienteAtualizado) {

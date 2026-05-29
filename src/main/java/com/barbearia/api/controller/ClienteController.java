@@ -4,6 +4,9 @@ import com.barbearia.api.entity.Cliente;
 import com.barbearia.api.service.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+import com.barbearia.api.dto.cliente.ClienteRequestDTO;
+import com.barbearia.api.dto.cliente.ClienteResponseDTO;
+
 
 import java.util.List;
 
@@ -18,13 +21,15 @@ public class ClienteController {
     }
 
     @GetMapping
-    public List<Cliente> listarClientes() {
+    public List<ClienteResponseDTO> listar() {
         return clienteService.listarClientes();
     }
 
     @PostMapping
-    public Cliente salvarCliente(@RequestBody @Valid Cliente cliente) {
-        return clienteService.salvarCliente(cliente);
+    public ClienteResponseDTO salvar(
+            @RequestBody @Valid ClienteRequestDTO dto
+    ) {
+        return clienteService.salvarCliente(dto);
     }
 
     @GetMapping("/telefone")
@@ -42,7 +47,9 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public Cliente buscarPorId(@PathVariable Long id) {
+    public ClienteResponseDTO buscarPorId(
+            @PathVariable Long id
+    ) {
         return clienteService.buscarPorId(id);
     }
 
