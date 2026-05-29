@@ -4,6 +4,8 @@ import com.barbearia.api.entity.Agendamento;
 import com.barbearia.api.service.AgendamentoService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+import com.barbearia.api.dto.agendamento.AgendamentoRequestDTO;
+import com.barbearia.api.dto.agendamento.AgendamentoResponseDTO;
 
 import java.util.List;
 
@@ -18,21 +20,21 @@ public class AgendamentoController {
     }
 
     @PostMapping
-    public Agendamento criarAgendamento(
-            @RequestParam Long clienteId,
-            @RequestParam Long barbeiroId,
-            @RequestBody @Valid Agendamento agendamento
+    public AgendamentoResponseDTO salvar(
+            @RequestBody @Valid AgendamentoRequestDTO dto
     ) {
-        return agendamentoService.salvar(clienteId, barbeiroId, agendamento);
+        return agendamentoService.salvar(dto);
     }
 
     @GetMapping
-    public List<Agendamento> listar() {
+    public List<AgendamentoResponseDTO> listar() {
         return agendamentoService.listar();
     }
 
     @GetMapping("/{id}")
-    public Agendamento buscarPorId(@PathVariable Long id) {
+    public AgendamentoResponseDTO buscarPorId(
+            @PathVariable Long id
+    ) {
         return agendamentoService.buscarPorId(id);
     }
 
