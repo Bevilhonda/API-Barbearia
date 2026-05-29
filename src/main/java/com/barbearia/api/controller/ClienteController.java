@@ -2,6 +2,7 @@ package com.barbearia.api.controller;
 
 import com.barbearia.api.entity.Cliente;
 import com.barbearia.api.service.ClienteService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class ClienteController {
     }
 
     @PostMapping
-    public Cliente salvarCliente(@RequestBody Cliente cliente) {
+    public Cliente salvarCliente(@RequestBody @Valid Cliente cliente) {
         return clienteService.salvarCliente(cliente);
     }
 

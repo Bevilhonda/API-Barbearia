@@ -4,7 +4,7 @@ import com.barbearia.api.entity.Agendamento;
 import com.barbearia.api.entity.Barbeiro;
 import com.barbearia.api.entity.Cliente;
 import com.barbearia.api.exceptions.ClienteNotFoundException;
-import com.barbearia.api.exception.BarbeiroNotFoundException;
+import com.barbearia.api.exceptions.BarbeiroNotFoundException;
 import com.barbearia.api.repository.AgendamentoRepository;
 import com.barbearia.api.repository.BarbeiroRepository;
 import com.barbearia.api.repository.ClienteRepository;

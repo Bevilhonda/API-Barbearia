@@ -2,6 +2,7 @@ package com.barbearia.api.controller;
 
 import com.barbearia.api.entity.Barbeiro;
 import com.barbearia.api.service.BarbeiroService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class BarbeiroController {
     }
 
     @PostMapping
-    public Barbeiro salvar(@RequestBody Barbeiro barbeiro) {
+    public Barbeiro salvar(@RequestBody @Valid Barbeiro barbeiro) {
         return barbeiroService.salvarBarbeiro(barbeiro);
     }
 

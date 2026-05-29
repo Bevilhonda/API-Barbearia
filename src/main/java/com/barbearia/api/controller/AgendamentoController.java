@@ -2,6 +2,7 @@ package com.barbearia.api.controller;
 
 import com.barbearia.api.entity.Agendamento;
 import com.barbearia.api.service.AgendamentoService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class AgendamentoController {
     public Agendamento criarAgendamento(
             @RequestParam Long clienteId,
             @RequestParam Long barbeiroId,
-            @RequestBody Agendamento agendamento
+            @RequestBody @Valid Agendamento agendamento
     ) {
         return agendamentoService.salvar(clienteId, barbeiroId, agendamento);
     }
