@@ -26,9 +26,7 @@ public class ClienteController {
     }
 
     @PostMapping
-    public ClienteResponseDTO salvar(
-            @RequestBody @Valid ClienteRequestDTO dto
-    ) {
+    public ClienteResponseDTO salvar(@RequestBody @Valid ClienteRequestDTO dto) {
         return clienteService.salvarCliente(dto);
     }
 
@@ -47,9 +45,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{id}")
-    public ClienteResponseDTO buscarPorId(
-            @PathVariable Long id
-    ) {
+    public ClienteResponseDTO buscarPorId(@PathVariable Long id) {
         return clienteService.buscarPorId(id);
     }
 

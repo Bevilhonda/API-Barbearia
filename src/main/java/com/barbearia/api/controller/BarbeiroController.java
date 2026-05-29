@@ -1,5 +1,8 @@
 package com.barbearia.api.controller;
 
+import com.barbearia.api.dto.barbeiro.BarbeiroRequestDTO;
+import com.barbearia.api.dto.barbeiro.BarbeiroResponseDTO;
+import com.barbearia.api.dto.cliente.ClienteRequestDTO;
 import com.barbearia.api.entity.Barbeiro;
 import com.barbearia.api.service.BarbeiroService;
 import jakarta.validation.Valid;
@@ -14,21 +17,24 @@ public class BarbeiroController {
     private final BarbeiroService barbeiroService;
 
     public BarbeiroController(BarbeiroService barbeiroService) {
+
         this.barbeiroService = barbeiroService;
     }
 
     @PostMapping
-    public Barbeiro salvar(@RequestBody @Valid Barbeiro barbeiro) {
-        return barbeiroService.salvarBarbeiro(barbeiro);
+    public BarbeiroResponseDTO salvar(@RequestBody @Valid BarbeiroRequestDTO dto) {
+        return barbeiroService.salvarBarbeiro(dto);
     }
 
     @GetMapping
-    public List<Barbeiro> listar() {
+    public List<BarbeiroResponseDTO> listar() {
+
         return barbeiroService.listarBarbeiros();
     }
 
     @GetMapping("/{id}")
-    public Barbeiro buscarPorId(@PathVariable Long id) {
+    public BarbeiroResponseDTO buscarPorId(@PathVariable Long id) {
+
         return barbeiroService.buscarPorId(id);
     }
 
