@@ -1,4 +1,4 @@
-package com.barbearia.api.exception;
+package com.barbearia.api.exceptions;
 
 public class BarbeiroNotFoundException extends RuntimeException {
 

@@ -1,6 +1,7 @@
 package com.barbearia.api.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -21,9 +22,11 @@ public class Agendamento {
     private Barbeiro barbeiro;
 
     @Column(nullable = false)
+    @NotNull(message = "Data do agendamento é obrigatória")
     private LocalDate dataAgendamento;
 
     @Column(nullable = false)
+    @NotNull(message = "Horário é obrigatório")
     private LocalTime horario;
 
     public Agendamento() {

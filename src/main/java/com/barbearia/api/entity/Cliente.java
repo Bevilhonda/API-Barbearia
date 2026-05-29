@@ -1,6 +1,7 @@
 package com.barbearia.api.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "cliente")
@@ -11,9 +12,11 @@ public class Cliente {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Nome não pode ser vazio")
     private String nome;
 
     @Column(nullable = false)
+    @NotBlank(message = "Telefone não pode ser vazio")
     private String telefone;
 
     public Cliente() {
