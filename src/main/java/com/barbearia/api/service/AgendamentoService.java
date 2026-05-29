@@ -3,6 +3,8 @@ package com.barbearia.api.service;
 import com.barbearia.api.entity.Agendamento;
 import com.barbearia.api.entity.Barbeiro;
 import com.barbearia.api.entity.Cliente;
+import com.barbearia.api.exceptions.ClienteNotFoundException;
+import com.barbearia.api.exception.BarbeiroNotFoundException;
 import com.barbearia.api.repository.AgendamentoRepository;
 import com.barbearia.api.repository.BarbeiroRepository;
 import com.barbearia.api.repository.ClienteRepository;
@@ -31,13 +33,13 @@ public class AgendamentoService {
 
         Cliente cliente = clienteRepository.findById(clienteId)
                 .orElseThrow(() ->
-                        new RuntimeException("Cliente não encontrado"));
+                        new ClienteNotFoundException(clienteId));
 
         Barbeiro barbeiro = barbeiroRepository.findById(barbeiroId)
                 .orElseThrow(() ->
-                        new RuntimeException("Barbeiro não encontrado"));
+                        new BarbeiroNotFoundException(barbeiroId));
 
-        // AQUI FAZ VALIDAÇÃO DE HORÁRIO
+        // VALIDAÇÃO DE HORÁRIO
         agendamentoRepository
                 .findByBarbeiroIdAndDataAgendamentoAndHorario(
                         barbeiroId,
