@@ -14,7 +14,8 @@ import com.barbearia.api.dto.agendamento.AgendamentoResponseDTO;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
+import com.barbearia.api.exceptions.BusinessRuleException;
+
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class AgendamentoService {
             AgendamentoRequestDTO dto
     ) {
         if (dto.getDataAgendamento().isBefore(LocalDate.now())) {
-            throw new RuntimeException(
+            throw new BusinessRuleException(
                     "Não é permitido agendar em datas passadas"
             );
         }
@@ -45,7 +46,7 @@ public class AgendamentoService {
         if (dto.getDataAgendamento().getDayOfWeek()
                 == DayOfWeek.SUNDAY) {
 
-            throw new RuntimeException(
+            throw new BusinessRuleException(
                     "Barbearia fechada aos domingos"
             );
         }
@@ -61,7 +62,7 @@ public class AgendamentoService {
         );
 
         if (!horariosPermitidos.contains(dto.getHorario())) {
-            throw new RuntimeException(
+            throw new BusinessRuleException(
                     "Horário fora do expediente da barbearia"
             );
         }
@@ -82,7 +83,7 @@ public class AgendamentoService {
                         dto.getHorario()
                 )
                 .ifPresent(a -> {
-                    throw new RuntimeException(
+                    throw new BusinessRuleException(
                             "Já existe agendamento para esse barbeiro nesse horário"
                     );
                 });

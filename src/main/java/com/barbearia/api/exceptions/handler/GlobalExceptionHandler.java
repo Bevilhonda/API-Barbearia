@@ -1,5 +1,6 @@
 package com.barbearia.api.exceptions.handler;
 
+import com.barbearia.api.exceptions.BusinessRuleException;
 import com.barbearia.api.exceptions.ClienteNotFoundException;
 import com.barbearia.api.exceptions.BarbeiroNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -64,5 +65,13 @@ public class GlobalExceptionHandler {
         body.put("errors", errors);
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<String> handleBusinessRuleException(
+            BusinessRuleException ex
+    ) {
+        return ResponseEntity.badRequest()
+                .body(ex.getMessage());
     }
 }
