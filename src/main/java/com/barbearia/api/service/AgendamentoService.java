@@ -11,6 +11,10 @@ import com.barbearia.api.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 import com.barbearia.api.dto.agendamento.AgendamentoRequestDTO;
 import com.barbearia.api.dto.agendamento.AgendamentoResponseDTO;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 
 import java.util.List;
 
@@ -32,6 +36,35 @@ public class AgendamentoService {
     public AgendamentoResponseDTO salvar(
             AgendamentoRequestDTO dto
     ) {
+        if (dto.getDataAgendamento().isBefore(LocalDate.now())) {
+            throw new RuntimeException(
+                    "Não é permitido agendar em datas passadas"
+            );
+        }
+
+        if (dto.getDataAgendamento().getDayOfWeek()
+                == DayOfWeek.SUNDAY) {
+
+            throw new RuntimeException(
+                    "Barbearia fechada aos domingos"
+            );
+        }
+
+        List<LocalTime> horariosPermitidos = List.of(
+                LocalTime.of(9, 0),
+                LocalTime.of(10, 0),
+                LocalTime.of(11, 0),
+                LocalTime.of(14, 0),
+                LocalTime.of(15, 0),
+                LocalTime.of(16, 0),
+                LocalTime.of(17, 0)
+        );
+
+        if (!horariosPermitidos.contains(dto.getHorario())) {
+            throw new RuntimeException(
+                    "Horário fora do expediente da barbearia"
+            );
+        }
 
         Cliente cliente = clienteRepository.findById(dto.getClienteId())
                 .orElseThrow(() ->
@@ -107,5 +140,36 @@ public class AgendamentoService {
                         new RuntimeException("Agendamento não encontrado"));
 
         agendamentoRepository.delete(agendamento);
+    }
+
+    public List<LocalTime> horariosDisponiveis(
+            Long barbeiroId,
+            LocalDate data
+    ) {
+
+        List<LocalTime> horariosFixos = List.of(
+                LocalTime.of(9, 0),
+                LocalTime.of(10, 0),
+                LocalTime.of(11, 0),
+                LocalTime.of(14, 0),
+                LocalTime.of(15, 0),
+                LocalTime.of(16, 0),
+                LocalTime.of(17, 0)
+        );
+
+        List<LocalTime> horariosOcupados =
+                agendamentoRepository
+                        .findByBarbeiroIdAndDataAgendamento(
+                                barbeiroId,
+                                data
+                        )
+                        .stream()
+                        .map(Agendamento::getHorario)
+                        .toList();
+
+        return horariosFixos.stream()
+                .filter(horario ->
+                        !horariosOcupados.contains(horario))
+                .toList();
     }
 }

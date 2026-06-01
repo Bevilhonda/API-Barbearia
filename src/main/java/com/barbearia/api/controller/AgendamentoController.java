@@ -6,6 +6,9 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import com.barbearia.api.dto.agendamento.AgendamentoRequestDTO;
 import com.barbearia.api.dto.agendamento.AgendamentoResponseDTO;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
 import java.util.List;
 
@@ -42,5 +45,15 @@ public class AgendamentoController {
     public String deletar(@PathVariable Long id) {
         agendamentoService.deletar(id);
         return "Agendamento deletado com sucesso";
+    }
+    @GetMapping("/horarios-disponiveis")
+    public List<LocalTime> horariosDisponiveis(
+            @RequestParam Long barbeiroId,
+            @RequestParam LocalDate data
+    ) {
+        return agendamentoService.horariosDisponiveis(
+                barbeiroId,
+                data
+        );
     }
 }
